@@ -32,6 +32,11 @@
         {{endfor PUBLIC_NAVIGATION}}
       </ul>
     </nav>
+    <style>
+  .carritoNav { color: #fff !important; text-decoration: none; }
+</style>
+    <a href="index.php?page=Sec_Login" class="carritoNav">🛒 {{~CART_ITEMS}} diferentes producto(s)</a>
+
   </header>
   <main>
   {{{page_content}}}

@@ -33,47 +33,53 @@ class Index extends PublicController
      * Index run method
      *
      * @return void
-     */
-    public function run(): void
-    {
-        Site::addLink("public/css/products.css");
+     */public function run(): void
+{
+    Site::addLink("public/css/products.css");
 
-        if ($this->isPostBack()) {
-            if (Security::isLogged()) {
-                $usercod = Security::getUserId();
+    if ($this->isPostBack()) {
+        if (Security::isLogged()) {
+            $usercod = Security::getUserId();
+            $productId = intval($_POST["productId"]);
+            $product = Cart::getProductoDisponible($productId);
+            if ($product["productStock"] - 1 >= 0) {
+                Cart::addToAuthCart(
+                    $productId,
+                    $usercod,
+                    1,
+                    $product["productPrice"]
+                );
+            }
+        } else {
+            $cartAnonCod = CartFns::getAnnonCartCode();
+            if (isset($_POST["addToCart"])) {
                 $productId = intval($_POST["productId"]);
                 $product = Cart::getProductoDisponible($productId);
                 if ($product["productStock"] - 1 >= 0) {
-                    Cart::addToAuthCart(
-                        intval($_POST["productId"]),
-                        $usercod,
+                    Cart::addToAnonCart(
+                        $productId,
+                        $cartAnonCod,
                         1,
                         $product["productPrice"]
                     );
                 }
-            } else {
-                $cartAnonCod = CartFns::getAnnonCartCode();
-                if (isset($_POST["addToCart"])) {
-
-                    $productId = intval($_POST["productId"]);
-                    $product = Cart::getProductoDisponible($productId);
-                    if ($product["productStock"] - 1 >= 0) {
-                        Cart::addToAnonCart(
-                            intval($_POST["productId"]),
-                            $cartAnonCod,
-                            1,
-                            $product["productPrice"]
-                        );
-                    }
-                }
             }
-            $this->getCartCounter();
         }
 
-        $products = Cart::getProductosDisponibles();
-        $viewData = [
-            "products" => $products,
-        ];
-        \Views\Renderer::render("index", $viewData);
+        $this->getCartCounter();
+
+        $cartItems = Security::isLogged()
+            ? CartFns::getAuthCartItemCount(Security::getUserId())
+            : CartFns::getAnonCartItemCount(CartFns::getAnnonCartCode());
+
+        $_SESSION["CART_ITEMS"] = $cartItems;
     }
+
+    $products = Cart::getProductosDisponibles();
+    $viewData = [
+        "products" => $products,
+    ];
+    \Views\Renderer::render("index", $viewData);
+}
+
 }

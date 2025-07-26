@@ -9,7 +9,7 @@ class Cart extends \Dao\Table
         $sqlAllProductosActivos = "SELECT * from products where productStatus in ('ACT');";
         $productosDisponibles = self::obtenerRegistros($sqlAllProductosActivos, array());
 
-        //Sacar el stock de productos con carretilla autorizada
+      
         $deltaAutorizada = \Utilities\Cart\CartFns::getAuthTimeDelta();
         $sqlCarretillaAutorizada = "select productId, sum(crrctd) as reserved
             from carretilla where TIME_TO_SEC(TIMEDIFF(now(), crrfching)) <= :delta
@@ -18,7 +18,7 @@ class Cart extends \Dao\Table
             $sqlCarretillaAutorizada,
             array("delta" => $deltaAutorizada)
         );
-        //Sacar el stock de productos con carretilla no autorizada
+      
         $deltaNAutorizada = \Utilities\Cart\CartFns::getUnAuthTimeDelta();
         $sqlCarretillaNAutorizada = "select productId, sum(crrctd) as reserved
             from carretillaanon where TIME_TO_SEC(TIMEDIFF(now(), crrfching)) <= :delta
@@ -48,13 +48,25 @@ class Cart extends \Dao\Table
         $prodsCarretillaNAutorizada = null;
         return $productosCurados;
     }
+    public static function getCantidadCarritoUsuario(int $usercod): int
+{
+    $sqlstr = "SELECT SUM(crrctd) as cantidad FROM carretilla WHERE usercod = :usercod;";
+    $result = self::obtenerUnRegistro($sqlstr, ["usercod" => $usercod]);
+    return isset($result["cantidad"]) ? intval($result["cantidad"]) : 0;
+}
+public static function getCantidadCarritoAnonimo(string $anonCod): int
+{
+    $sqlstr = "SELECT SUM(crrctd) as cantidad FROM carretillaanon WHERE anoncod = :anoncod;";
+    $result = self::obtenerUnRegistro($sqlstr, ["anoncod" => $anonCod]);
+    return isset($result["cantidad"]) ? intval($result["cantidad"]) : 0;
+}
 
     public static function getProductoDisponible($productId)
     {
         $sqlAllProductosActivos = "SELECT * from products where productStatus in ('ACT') and productId=:productId;";
         $productosDisponibles = self::obtenerRegistros($sqlAllProductosActivos, array("productId" => $productId));
 
-        //Sacar el stock de productos con carretilla autorizada
+
         $deltaAutorizada = \Utilities\Cart\CartFns::getAuthTimeDelta();
         $sqlCarretillaAutorizada = "select productId, sum(crrctd) as reserved
             from carretilla where productId=:productId and TIME_TO_SEC(TIMEDIFF(now(), crrfching)) <= :delta
@@ -63,7 +75,7 @@ class Cart extends \Dao\Table
             $sqlCarretillaAutorizada,
             array("productId" => $productId, "delta" => $deltaAutorizada)
         );
-        //Sacar el stock de productos con carretilla no autorizada
+
         $deltaNAutorizada = \Utilities\Cart\CartFns::getUnAuthTimeDelta();
         $sqlCarretillaNAutorizada = "select productId, sum(crrctd) as reserved
             from carretillaanon where productId = :productId and TIME_TO_SEC(TIMEDIFF(now(), crrfching)) <= :delta
