@@ -16,7 +16,7 @@
         <td>{{productName}}</td>
         <td>{{crrprc}}</td>
         <td>{{crrctd}}</td>
-        <td>{{math crrprc * crrctd}}</td>
+        <td>1</td>
         <td>
           <!-- Disminuir -->
           <form action="index.php?page=Checkout_Checkout" method="post" style="display:inline">

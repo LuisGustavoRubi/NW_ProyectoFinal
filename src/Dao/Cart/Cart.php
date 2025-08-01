@@ -107,7 +107,48 @@ public static function getCantidadCarritoAnonimo(string $anonCod): int
     }
 
 
-    
+    public static function decreaseAuthCartItem(int $usercod, int $productId)
+{
+    $item = self::obtenerUnRegistro(
+        "SELECT * FROM carretilla WHERE usercod = :usercod AND productId = :productId",
+        ['usercod' => $usercod, 'productId' => $productId]
+    );
+
+    if ($item && $item['crrctd'] > 1) {
+        return self::executeNonQuery(
+            "UPDATE carretilla SET crrctd = crrctd - 1 WHERE usercod = :usercod AND productId = :productId",
+            ['usercod' => $usercod, 'productId' => $productId]
+        );
+    } elseif ($item) {
+        return self::executeNonQuery(
+            "DELETE FROM carretilla WHERE usercod = :usercod AND productId = :productId",
+            ['usercod' => $usercod, 'productId' => $productId]
+        );
+    }
+    return 0;
+}
+
+public static function decreaseAnonCartItem(string $anonCod, int $productId)
+{
+    $item = self::obtenerUnRegistro(
+        "SELECT * FROM carretillaanon WHERE anoncod = :anonCod AND productId = :productId",
+        ['anonCod' => $anonCod, 'productId' => $productId]
+    );
+
+    if ($item && $item['crrctd'] > 1) {
+        return self::executeNonQuery(
+            "UPDATE carretillaanon SET crrctd = crrctd - 1 WHERE anoncod = :anonCod AND productId = :productId",
+            ['anonCod' => $anonCod, 'productId' => $productId]
+        );
+    } elseif ($item) {
+        return self::executeNonQuery(
+            "DELETE FROM carretillaanon WHERE anoncod = :anonCod AND productId = :productId",
+            ['anonCod' => $anonCod, 'productId' => $productId]
+        );
+    }
+    return 0;
+}
+
     
     
     public static function addToAnonCart(int $productId, string $anonCod, int $amount, float $price)
