@@ -47,30 +47,16 @@ class Checkout extends PublicController
             if ( isset($_POST['decrease']) ) {
                 if ( Security::isLogged() ) {
                     CartDao::executeNonQuery(
-                        "UPDATE carretilla 
-                         SET crrctd = crrctd - 1 
-                         WHERE usercod = :usercod AND productId = :productId",
-                        ['usercod'=>$usercod,'productId'=>$productId]
-                    );
-                    CartDao::executeNonQuery(
-                        "DELETE FROM carretilla 
-                         WHERE usercod = :usercod 
-                           AND productId = :productId 
-                           AND crrctd <= 0",
+                        "UPDATE carretilla
+                         SET crrctd = crrctd - 1
+                         WHERE usercod = :usercod AND productId = :productId AND crrctd > 1",
                         ['usercod'=>$usercod,'productId'=>$productId]
                     );
                 } else {
                     CartDao::executeNonQuery(
-                        "UPDATE carretillaanon 
-                         SET crrctd = crrctd - 1 
-                         WHERE anoncod = :anoncod AND productId = :productId",
-                        ['anoncod'=>$anonCod,'productId'=>$productId]
-                    );
-                    CartDao::executeNonQuery(
-                        "DELETE FROM carretillaanon 
-                         WHERE anoncod = :anoncod 
-                           AND productId = :productId 
-                           AND crrctd <= 0",
+                        "UPDATE carretillaanon
+                         SET crrctd = crrctd - 1
+                         WHERE anoncod = :anoncod AND productId = :productId AND crrctd > 1",
                         ['anoncod'=>$anonCod,'productId'=>$productId]
                     );
                 }

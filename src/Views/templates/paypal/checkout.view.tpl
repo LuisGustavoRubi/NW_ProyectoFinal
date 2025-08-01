@@ -7,7 +7,7 @@
       <th>Precio</th>
       <th>Cantidad</th>
       <th>Subtotal</th>
-      <th>Acciones</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -34,10 +34,9 @@
   </tbody>
 </table>
 
-<p><strong>Total:</strong> {{total}}</p>
+<p><strong>Subtotal:</strong> {{subTotal}}</p>
 
 <form action="index.php?page=Checkout_Checkout" method="post">
-  <button type="submit" name="placeOrder">Pagar con PayPal</button>
 </form>
 
 <div id="paypal-button-container"></div>
