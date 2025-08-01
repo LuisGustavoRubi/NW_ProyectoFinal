@@ -29,7 +29,7 @@ class Checkout extends PublicController
             // a) Aumentar cantidad
             if ( isset($_POST['increase']) ) {
                 foreach($items as $i) {
-                    if ($i['productId'] === $productId) {
+                    if ($i['productId'] == $productId) {
                         $price = $i['crrprc'];
                         break;
                     }
