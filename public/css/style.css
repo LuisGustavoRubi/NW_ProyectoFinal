@@ -164,3 +164,8 @@ footer{
 @media (min-width: 1536){
   
 }
+
+/* Alinear datos de tabla al centro */
+table td {
+    text-align: center;
+}
