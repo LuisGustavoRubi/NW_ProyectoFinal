@@ -64,11 +64,14 @@ if (isset($_POST['decrease'])) {
         }
 
         // 3) Calcular subtotales y total
-        $subTotal = 0;
-        foreach($items as $i) {
-            $subTotal += $i['crrprc'] * $i['crrctd'];
-        }
-        $total = $subTotal; // Añadir impuestos si hace falta
+       // 3) Calcular subtotales y total
+$subTotal = 0;
+foreach ($items as &$i) {
+    $i['itemSubtotal'] = $i['crrprc'] * $i['crrctd']; // Subtotal por ítem
+    $subTotal += $i['itemSubtotal']; // Acumula al total
+}
+$total = $subTotal;
+
 
         // 4) Renderizar la vista con datos
         $viewData = [

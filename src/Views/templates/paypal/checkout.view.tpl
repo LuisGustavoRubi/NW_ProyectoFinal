@@ -16,7 +16,7 @@
         <td>{{productName}}</td>
         <td>{{crrprc}}</td>
         <td>{{crrctd}}</td>
-        <td>1</td>
+        <td>{{itemSubtotal}}</td>
         <td>
           <!-- Disminuir -->
           <form action="index.php?page=Checkout_Checkout" method="post" style="display:inline">
@@ -34,7 +34,7 @@
   </tbody>
 </table>
 
-<p><strong>Subtotal:</strong> {{subTotal}}</p>
+<p><strong>Total:</strong> L.{{subTotal}}</p>
 
 <form action="index.php?page=Checkout_Checkout" method="post">
 </form>
