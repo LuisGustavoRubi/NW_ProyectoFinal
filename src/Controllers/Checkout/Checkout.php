@@ -41,29 +41,28 @@ class Checkout extends PublicController
                 }
                 Site::redirectTo('index.php?page=Checkout_Checkout');
                 die();
+            
+            // b) Disminuir cantidad (invertir lógica de incremento)
+            if ( isset($_POST['decrease']) ) {
+                foreach($items as $i) {
+                    if ($i['productId'] == $productId) { break; }
+                }
+                if ( Security::isLogged() ) {
+                    CartDao::executeNonQuery(
+                        "UPDATE carretilla SET crrctd = crrctd - 1 WHERE usercod = :usercod AND productId = :productId AND crrctd > 1",
+                        ['usercod'=>$usercod,'productId'=>$productId]
+                    );
+                } else {
+                    CartDao::executeNonQuery(
+                        "UPDATE carretillaanon SET crrctd = crrctd - 1 WHERE anoncod = :anonCod AND productId = :productId AND crrctd > 1",
+                        ['anoncod'=>$anonCod,'productId'=>$productId]
+                    );
+                }
+                Site::redirectTo('index.php?page=Checkout_Checkout');
+                die();
             }
 
-            // b) Disminuir cantidad
-if ( isset($_POST['decrease']) ) {
-    $productId = intval($_POST['productId'] ?? 0);
-    if ( Security::isLogged() ) {
-        CartDao::executeNonQuery(
-            "UPDATE carretilla
-             SET crrctd = crrctd - 1
-             WHERE usercod = :usercod AND productId = :productId AND crrctd > 1",
-            ['usercod'=>$usercod, 'productId'=>$productId]
-        );
-    } else {
-        CartDao::executeNonQuery(
-            "UPDATE carretillaanon
-             SET crrctd = crrctd - 1
-             WHERE anoncod = :anonCod AND productId = :productId AND crrctd > 1",
-            ['anoncod'=>$anonCod, 'productId'=>$productId]
-        );
-    }
-    Site::redirectTo('index.php?page=Checkout_Checkout');
-    die();
-}
+            }
 
 
             // c) Generar orden PayPal
