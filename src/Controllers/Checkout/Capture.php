@@ -3,11 +3,22 @@
 namespace Controllers\Checkout;
 
 use Controllers\PublicController;
+use Utilities\Security;
+use Utilities\Cart\CartFns;
+use Dao\Cart\Cart as CartDao;
+use Dao\Sales;
 
 class Capture extends PublicController
 {
     public function run(): void
     {
+        $items = [];
+        if (Security::isLogged()) {
+            $items = CartDao::getAuthCart($_SESSION['usercod']);
+        } else {
+            $items = CartDao::getAnonCart(CartFns::getAnnonCartCode());
+        }
+
         $dataview = array();
         $token = $_GET["token"] ?: "";
         $session_token = $_SESSION["orderid"] ?: "";

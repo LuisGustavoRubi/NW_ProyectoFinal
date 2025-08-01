@@ -39,3 +39,24 @@
 <form action="index.php?page=Checkout_Checkout" method="post">
   <button type="submit" name="placeOrder">Pagar con PayPal</button>
 </form>
+
+<div id="paypal-button-container"></div>
+<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+<script>
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{ amount: { value: "{{total}}" } }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        window.location.href = "index.php?page=Checkout_Capture&token=" + data.orderID;
+      });
+    },
+    onError: function(err) {
+      console.error(err);
+      alert("Error al procesar el pago con PayPal.");
+    }
+  }).render("#paypal-button-container");
+</script>
