@@ -107,33 +107,39 @@ public static function getCantidadCarritoAnonimo(string $anonCod): int
     }
 
 
-    public static function addToAnonCart(
-        int $productId,
-        string $anonCod,
-        int $amount,
-        float $price
-    ) {
-        $validateSql = "SELECT * from carretillaanon where anoncod = :anoncod and productId = :productId";
+    
+    
+    
+    public static function addToAnonCart(int $productId, string $anonCod, int $amount, float $price)
+    {
+        $validateSql = "SELECT * FROM carretillaanon WHERE anoncod = :anoncod AND productId = :productId";
         $producto = self::obtenerUnRegistro($validateSql, ["anoncod" => $anonCod, "productId" => $productId]);
         if ($producto) {
-            $updateSql = "UPDATE carretillaanon set crrctd = crrctd + 1 where anoncod = :anoncod and productId = :productId";
-            return self::executeNonQuery($updateSql, ["anoncod" => $anonCod, "productId" => $productId]);
+            $updateSql = "UPDATE carretillaanon SET crrctd = crrctd + :amount WHERE anoncod = :anoncod AND productId = :productId";
+            return self::executeNonQuery($updateSql, ["anoncod" => $anonCod, "productId" => $productId, "amount" => $amount]);
         } else {
-            return self::executeNonQuery(
-                "INSERT INTO carretillaanon (anoncod, productId, crrctd, crrprc, crrfching) VALUES (:anoncod, :productId, :crrctd, :crrprc, NOW());",
-                ["anoncod" => $anonCod, "productId" => $productId, "crrctd" => $amount, "crrprc" => $price]
-            );
+            $insertSql = "INSERT INTO carretillaanon (anoncod, productId, crrctd, crrprc, crrfching) VALUES (:anoncod, :productId, :crrctd, :crrprc, NOW())";
+            return self::executeNonQuery($insertSql, ["anoncod" => $anonCod, "productId" => $productId, "crrctd" => $amount, "crrprc" => $price]);
         }
     }
+    
 
-    public static function getAnonCart(string $anonCod)
+public static function getAnonCart(string $anonCod)
     {
-        return self::obtenerRegistros("SELECT a.*, b.crrctd, b.crrprc, b.crrfching FROM products a inner join carretillaanon b on a.productId = b.productId where b.anoncod=:anoncod;", ["anoncod" => $anonCod]);
+        $sql = "SELECT a.*, b.crrctd, b.crrprc, b.crrfching
+                FROM products a
+                JOIN carretillaanon b ON a.productId = b.productId
+                WHERE b.anoncod = :anoncod";
+        return self::obtenerRegistros($sql, ["anoncod" => $anonCod]);
     }
 
     public static function getAuthCart(int $usercod)
     {
-        return self::obtenerRegistros("SELECT a.*, b.crrctd, b.crrprc, b.crrfching FROM products a inner join carretilla b on a.productId = b.productId where b.usercod=:usercod;", ["usercod" => $usercod]);
+        $sql = "SELECT a.*, b.crrctd, b.crrprc, b.crrfching
+                FROM products a
+                JOIN carretilla b ON a.productId = b.productId
+                WHERE b.usercod = :usercod";
+        return self::obtenerRegistros($sql, ["usercod" => $usercod]);
     }
 
     public static function addToAuthCart(

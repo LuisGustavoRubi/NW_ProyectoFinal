@@ -1,3 +1,41 @@
-<form action="index.php?page=checkout_checkout" method="post">
-  <button type="submit">Place Order</button>
+<h1>Tu Carrito</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Producto</th>
+      <th>Precio</th>
+      <th>Cantidad</th>
+      <th>Subtotal</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{foreach items}}
+      <tr>
+        <td>{{productName}}</td>
+        <td>{{crrprc}}</td>
+        <td>{{crrctd}}</td>
+        <td>{{math crrprc * crrctd}}</td>
+        <td>
+          <!-- Disminuir -->
+          <form action="index.php?page=Checkout_Checkout" method="post" style="display:inline">
+            <input type="hidden" name="productId" value="{{productId}}">
+            <button type="submit" name="decrease">−</button>
+          </form>
+          <!-- Aumentar -->
+          <form action="index.php?page=Checkout_Checkout" method="post" style="display:inline">
+            <input type="hidden" name="productId" value="{{productId}}">
+            <button type="submit" name="increase">+</button>
+          </form>
+        </td>
+      </tr>
+    {{endfor items}}
+  </tbody>
+</table>
+
+<p><strong>Total:</strong> {{total}}</p>
+
+<form action="index.php?page=Checkout_Checkout" method="post">
+  <button type="submit" name="placeOrder">Pagar con PayPal</button>
 </form>
