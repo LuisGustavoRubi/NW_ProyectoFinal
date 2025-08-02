@@ -32,6 +32,7 @@
         {{foreach NAVIGATION}}
             <li><a href="{{nav_url}}">{{nav_label}}</a></li>
         {{endfor NAVIGATION}}
+        <li><a href="index.php?page=Checkout_HistorySales"><i class="fas fa-sign-out-alt"></i>&nbsp;Historial de compras</a></li>
         <li><a href="index.php?page=sec_logout"><i class="fas fa-sign-out-alt"></i>&nbsp;Salir</a></li>
       </ul>
     </nav>
@@ -41,11 +42,14 @@
   .carritoNav { color: #fff !important; text-decoration: none; }
 </style>
 
+
 <a class="carritoNav" href="index.php?page=Checkout_Checkout">
   {{if ~CART_ITEMS}}🛒 {{~CART_ITEMS}} diferentes productos{{endif ~CART_ITEMS}}
 </a>
+  
     <span class="username">{{userName}} <a href="index.php?page=sec_logout"><i class="fas fa-sign-out-alt"></i></a></span>
     {{endwith login}}
+    
   </header>
   <main>
     {{{page_content}}}

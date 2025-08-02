@@ -13,7 +13,7 @@ class Checkout extends PublicController
 {
     public function run(): void
     {
-        // 1) Cargar los ítems del carrito (autenticado o anónimo)
+        
         if ( Security::isLogged() ) {
             $usercod = Security::getUserId();
             $items   = CartDao::getAuthCart($usercod);
@@ -22,11 +22,11 @@ class Checkout extends PublicController
             $items   = CartDao::getAnonCart($anonCod);
         }
 
-        // 2) Manejar acciones POST: increase, decrease, placeOrder
+
         if ( $this->isPostBack() ) {
             $productId = intval($_POST['productId'] ?? 0);
 
-            // a) Aumentar cantidad
+         
             if ( isset($_POST['increase']) ) {
                 foreach($items as $i) {
                     if ($i['productId'] == $productId) {
@@ -43,7 +43,7 @@ class Checkout extends PublicController
                 die();
             }
 
-            // b) Disminuir cantidad
+         
 if (isset($_POST['decrease'])) {
     $productId = intval($_POST['productId'] ?? 0);
     if (Security::isLogged()) {
@@ -57,23 +57,19 @@ if (isset($_POST['decrease'])) {
 
 
 
-            // c) Generar orden PayPal
-            if ( isset($_POST['placeOrder']) ) {
-                // Aquí se mantiene el bloque de creación de orden que ya existía
-            }
+            
         }
 
-        // 3) Calcular subtotales y total
-       // 3) Calcular subtotales y total
+      
 $subTotal = 0;
 foreach ($items as &$i) {
-    $i['itemSubtotal'] = $i['crrprc'] * $i['crrctd']; // Subtotal por ítem
-    $subTotal += $i['itemSubtotal']; // Acumula al total
+    $i['itemSubtotal'] = $i['crrprc'] * $i['crrctd']; 
+    $subTotal += $i['itemSubtotal']; 
 }
 $total = $subTotal;
 
 
-        // 4) Renderizar la vista con datos
+    
         $viewData = [
             'items'    => $items,
             'subTotal' => $subTotal,

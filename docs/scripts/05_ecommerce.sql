@@ -1,6 +1,7 @@
 CREATE TABLE
     `sales` (
         `saleId` int(11) NOT NULL AUTO_INCREMENT,
+        `userId` bigint(10) NOT NULL,
         `productId` int(11) NOT NULL,
         `salePrice` decimal(10, 2) NOT NULL,
         `saleStart` datetime NOT NULL,
@@ -21,258 +22,173 @@ CREATE TABLE
         CONSTRAINT `fk_highlights_products` FOREIGN KEY (`productId`) REFERENCES `products` (`productId`) ON DELETE CASCADE ON UPDATE CASCADE
     ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4;
 
-INSERT INTO
-    `products` (
-        `productId`,
-        `productName`,
-        `productDescription`,
-        `productPrice`,
-        `productImgUrl`,
-        `productStatus`
-    )
+-- Inserts de productos imaginarios
+INSERT INTO `products` (
+    `productId`,
+    `productName`,
+    `productDescription`,
+    `productPrice`,
+    `productImgUrl`,
+    `productStatus`
+)
 VALUES (
-        1,
-        'Negocios Web Intro',
-        'Libro de Introducción a los Negocios Web 70 pg',
-        200,
-        'https://placehold.co/290x250?text=Negocios-Web-Intro&font=roboto',
-        'ACT'
-    );
+    4,
+    'Celestial Coffee Beans',
+    'Premium cosmic roast with notes of vanilla and caramel',
+    150.00,
+    'https://placehold.co/290x250?text=Celestial-Coffee-Beans&font=roboto',
+    'ACT'
+);
 
-INSERT INTO
-    `products` (
-        `productId`,
-        `productName`,
-        `productDescription`,
-        `productPrice`,
-        `productImgUrl`,
-        `productStatus`
-    )
+INSERT INTO `products` (
+    `productId`,
+    `productName`,
+    `productDescription`,
+    `productPrice`,
+    `productImgUrl`,
+    `productStatus`
+)
 VALUES (
-        2,
-        'Negocios Web 2',
-        'Libro de Negocios Web 2 POO 120 pg',
-        300,
-        'https://placehold.co/290x250?text=Negocios-Web-2&font=roboto',
-        'ACT'
-    );
+    5,
+    'Quantum Sketchpad',
+    'Ultra-responsive digital drawing tablet with stylus',
+    299.99,
+    'https://placehold.co/290x250?text=Quantum-Sketchpad&font=roboto',
+    'ACT'
+);
 
-INSERT INTO
-    `products` (
-        `productId`,
-        `productName`,
-        `productDescription`,
-        `productPrice`,
-        `productImgUrl`,
-        `productStatus`
-    )
+INSERT INTO `products` (
+    `productId`,
+    `productName`,
+    `productDescription`,
+    `productPrice`,
+    `productImgUrl`,
+    `productStatus`
+)
 VALUES (
-        3,
-        'Negocios Web Advance',
-        'Libro de Negocios Web Ingreso Pasivo 170 pg',
-        700,
-        'https://placehold.co/290x250?text=Negocios-Web-Advance&font=roboto',
-        'ACT'
-    );
+    6,
+    'Orion Smart Thermostat',
+    'AI-driven home climate control with smartphone app',
+    129.50,
+    'https://placehold.co/290x250?text=Orion-Smart-Thermostat&font=roboto',
+    'ACT'
+);
 
-INSERT INTO
-    `products` (
-        `productId`,
-        `productName`,
-        `productDescription`,
-        `productPrice`,
-        `productImgUrl`,
-        `productStatus`
-    )
+INSERT INTO `products` (
+    `productId`,
+    `productName`,
+    `productDescription`,
+    `productPrice`,
+    `productImgUrl`,
+    `productStatus`
+)
 VALUES (
-        4,
-        'Negocios Web Full',
-        'Libro de Negocios Web Full Stack 220 pg',
-        1000,
-        'https://placehold.co/290x250?text=Negocios-Web-Full&font=roboto',
-        'ACT'
-    );
+    7,
+    'EchoFlow Water Bottle',
+    'Insulated stainless steel bottle with self-clean UV cap',
+    19.95,
+    'https://placehold.co/290x250?text=EchoFlow-Water-Bottle&font=roboto',
+    'ACT'
+);
 
-INSERT INTO
-    `products` (
-        `productId`,
-        `productName`,
-        `productDescription`,
-        `productPrice`,
-        `productImgUrl`,
-        `productStatus`
-    )
+INSERT INTO `products` (
+    `productId`,
+    `productName`,
+    `productDescription`,
+    `productPrice`,
+    `productImgUrl`,
+    `productStatus`
+)
 VALUES (
-        5,
-        'Negocios Web Master',
-        'Libro de Negocios Web Master 300 pg',
-        1500,
-        'https://placehold.co/290x250?text=Negocios-Web-Master&font=roboto',
-        'ACT'
-    );
+    8,
+    'Lumen LED Desk Lamp',
+    'Adjustable color-temperature lamp with wireless charging',
+    49.99,
+    'https://placehold.co/290x250?text=Lumen-LED-Desk-Lamp&font=roboto',
+    'ACT'
+);
 
-INSERT INTO
-    `products` (
-        `productId`,
-        `productName`,
-        `productDescription`,
-        `productPrice`,
-        `productImgUrl`,
-        `productStatus`
-    )
+INSERT INTO `products` (
+    `productId`,
+    `productName`,
+    `productDescription`,
+    `productPrice`,
+    `productImgUrl`,
+    `productStatus`
+)
 VALUES (
-        6,
-        'Negocios Web Expert',
-        'Libro de Negocios Web Expert 400 pg',
-        2000,
-        'https://placehold.co/290x250?text=Negocios-Web-Expert&font=roboto',
-        'ACT'
-    );
+    9,
+    'AeroTech Drone',
+    'Foldable 4K drone with 30-minute flight time',
+    899.00,
+    'https://placehold.co/290x250?text=AeroTech-Drone&font=roboto',
+    'ACT'
+);
 
-INSERT INTO
-    `products` (
-        `productId`,
-        `productName`,
-        `productDescription`,
-        `productPrice`,
-        `productImgUrl`,
-        `productStatus`
-    )
+INSERT INTO `products` (
+    `productId`,
+    `productName`,
+    `productDescription`,
+    `productPrice`,
+    `productImgUrl`,
+    `productStatus`
+)
 VALUES (
-        7,
-        'Negocios Web Guru',
-        'Libro de Negocios Web Guru 500 pg',
-        2500,
-        'https://placehold.co/290x250?text=Negocios-Web-Guru&font=roboto',
-        'ACT'
-    );
+    10,
+    'TerraSound Earbuds',
+    'Noise-cancelling true wireless earbuds with mic',
+    129.99,
+    'https://placehold.co/290x250?text=TerraSound-Earbuds&font=roboto',
+    'ACT'
+);
 
-INSERT INTO
-    `products` (
-        `productId`,
-        `productName`,
-        `productDescription`,
-        `productPrice`,
-        `productImgUrl`,
-        `productStatus`
-    )
+INSERT INTO `products` (
+    `productId`,
+    `productName`,
+    `productDescription`,
+    `productPrice`,
+    `productImgUrl`,
+    `productStatus`
+)
 VALUES (
-        8,
-        'Negocios Web Master Ninha',
-        'Libro de Negocios Web Master Ninja 300 pg',
-        1500,
-        'https://placehold.co/290x250?text=Negocios-Web-Master-Ninja&font=roboto',
-        'ACT'
-    );
+    11,
+    'Nimbus Portable Projector',
+    'Compact HD projector with built-in speaker',
+    249.90,
+    'https://placehold.co/290x250?text=Nimbus-Portable-Projector&font=roboto',
+    'ACT'
+);
 
-INSERT INTO
-    `products` (
-        `productId`,
-        `productName`,
-        `productDescription`,
-        `productPrice`,
-        `productImgUrl`,
-        `productStatus`
-    )
+INSERT INTO `products` (
+    `productId`,
+    `productName`,
+    `productDescription`,
+    `productPrice`,
+    `productImgUrl`,
+    `productStatus`
+)
 VALUES (
-        9,
-        'Negocios Web Expert Ninja',
-        'Libro de Negocios Web Expert Ninja 400 pg',
-        2000,
-        'https://placehold.co/290x250?text=Negocios-Web-Expert-Ninja&font=roboto',
-        'ACT'
-    );
+    12,
+    'Pulse Fitness Tracker',
+    'Waterproof wristband with heart-rate and sleep monitoring',
+    179.00,
+    'https://placehold.co/290x250?text=Pulse-Fitness-Tracker&font=roboto',
+    'ACT'
+);
 
-INSERT INTO
-    `products` (
-        `productId`,
-        `productName`,
-        `productDescription`,
-        `productPrice`,
-        `productImgUrl`,
-        `productStatus`
-    )
+INSERT INTO `products` (
+    `productId`,
+    `productName`,
+    `productDescription`,
+    `productPrice`,
+    `productImgUrl`,
+    `productStatus`
+)
 VALUES (
-        10,
-        'Negocios Web Guru Ninja',
-        'Libro de Negocios Web Guru Ninja 500 pg',
-        2500,
-        'https://placehold.co/290x250?text=Negocios-Web-Guru-Ninja&font=roboto',
-        'ACT'
-    );
-
-INSERT INTO
-    `sales` (
-        `saleId`,
-        `productId`,
-        `salePrice`,
-        `saleStart`,
-        `saleEnd`
-    )
-VALUES (
-        1,
-        3,
-        500,
-        '2023-08-01 00:00:00',
-        '2023-10-31 23:59:59'
-    );
-
-INSERT INTO
-    `sales` (
-        `saleId`,
-        `productId`,
-        `salePrice`,
-        `saleStart`,
-        `saleEnd`
-    )
-VALUES (
-        2,
-        5,
-        750,
-        '2023-08-01 00:00:00',
-        '2023-10-31 23:59:59'
-    );
-
-INSERT INTO
-    `sales` (
-        `saleId`,
-        `productId`,
-        `salePrice`,
-        `saleStart`,
-        `saleEnd`
-    )
-VALUES (
-        3,
-        7,
-        1500,
-        '2023-08-01 00:00:00',
-        '2023-10-31 23:59:59'
-    );
-
-INSERT INTO
-    `highlights` (
-        `highlightId`,
-        `productId`,
-        `highlightStart`,
-        `highlightEnd`
-    )
-VALUES (
-        1,
-        1,
-        '2023-08-01 00:00:00',
-        '2023-10-31 23:59:59'
-    );
-
-INSERT INTO
-    `highlights` (
-        `highlightId`,
-        `productId`,
-        `highlightStart`,
-        `highlightEnd`
-    )
-VALUES (
-        2,
-        4,
-        '2023-08-01 00:00:00',
-        '2023-10-31 23:59:59'
-    );
+    13,
+    'Solace Sleep Mask',
+    'Bluetooth eye mask with built-in speakers and soothing lights',
+    29.90,
+    'https://placehold.co/290x250?text=Solace-Sleep-Mask&font=roboto',
+    'ACT'
+);

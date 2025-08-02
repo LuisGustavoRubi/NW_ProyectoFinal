@@ -47,11 +47,11 @@ class Capture extends PublicController
                                 date("Y-m-d H:i:s", strtotime("+1 month"))
                             );
                         } catch (\Throwable $ex) {
-                            // Log de error
+                         
                             file_put_contents("log.txt", "ERROR al guardar venta: " . $ex->getMessage() . "\n", FILE_APPEND);
                         }
                     } else {
-                        // Log de datos incompletos
+                        
                         file_put_contents("log.txt", "DATOS INCOMPLETOS: " . print_r($item, true), FILE_APPEND);
                     }
                 }

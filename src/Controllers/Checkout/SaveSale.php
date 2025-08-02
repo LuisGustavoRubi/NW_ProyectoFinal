@@ -23,7 +23,7 @@ class SaveSale extends PublicController {
             $totalPrice = $quantity * $price;
             Sales::insertSale($productId, $totalPrice);
         }
-        // Vaciar carrito
+       
         if (Security::isLogged()) {
             CartDao::clearAuthCart(Security::getUserId());
         } else {
